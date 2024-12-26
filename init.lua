@@ -204,6 +204,18 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- Set default tab width settings as fallback
+vim.api.nvim_create_autocmd('BufReadPost', {
+  callback = function()
+    if vim.bo.shiftwidth == 0 then
+      -- If vim-sleuth doesn't set shiftwidth, apply default
+      vim.opt.tabstop = 2
+      vim.opt.shiftwidth = 2
+      vim.opt.expandtab = true
+    end
+  end,
+})
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -448,6 +460,11 @@ require('lazy').setup({
           require('nvim-web-devicons').setup {
             default = true,
             override = {
+              default_icon = {
+                icon = '',
+                color = '#428850',
+                name = 'Default',
+              },
               dockerfile = {
                 icon = '🐳',
                 color = '#458ee6',
@@ -474,6 +491,18 @@ require('lazy').setup({
                 cterm_color = '68',
                 name = 'Dockerfile',
               },
+              ['rs'] = {
+                icon = '🦀',
+                color = '#dea584',
+                cterm_color = '180',
+                name = 'Rust',
+              },
+              ['toml'] = {
+                icon = '⚓',
+                color = '#dea584',
+                cterm_color = '180',
+                name = 'Toml',
+              },
             },
             override_by_filename = {
               ['Dockerfile'] = {
@@ -493,6 +522,48 @@ require('lazy').setup({
                 color = '#458ee6',
                 cterm_color = '68',
                 name = 'DockerCompose',
+              },
+              ['Cargo.lock'] = {
+                icon = '⚓',
+                color = '#dea584',
+                cterm_color = '180',
+                name = 'CargoLock',
+              },
+              ['Makefile'] = {
+                icon = '🛠',
+                color = '#6d8086',
+                cterm_color = '66',
+                name = 'Makefile',
+              },
+              ['Makefile.in'] = {
+                icon = '🛠',
+                color = '#6d8086',
+                cterm_color = '66',
+                name = 'MakefileIn',
+              },
+              ['Makefile.am'] = {
+                icon = '🛠',
+                color = '#6d8086',
+                cterm_color = '66',
+                name = 'MakefileAm',
+              },
+              ['GNUmakefile'] = {
+                icon = '🛠',
+                color = '#6d8086',
+                cterm_color = '66',
+                name = 'GNUMakefile',
+              },
+              ['CMakeLists.txt'] = {
+                icon = '🛠',
+                color = '#6d8086',
+                cterm_color = '66',
+                name = 'CMakeLists',
+              },
+              ['CMakeCache.txt'] = {
+                icon = '🛠',
+                color = '#6d8086',
+                cterm_color = '66',
+                name = 'CMakeCache',
               },
             },
           }
