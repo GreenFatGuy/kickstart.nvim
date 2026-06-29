@@ -61,6 +61,16 @@ return {
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
+    local function rust_analyzer_cmd()
+      local ra = vim.fn.trim(vim.fn.system 'rustup which rust-analyzer')
+
+      if vim.v.shell_error ~= 0 or ra == '' then
+        return { 'rust-analyzer' }
+      end
+
+      return { ra }
+    end
+
     local servers = {
       clangd = {
         cmd = {
@@ -86,7 +96,9 @@ return {
       },
       gopls = {},
       pyright = {},
-      rust_analyzer = {},
+      rust_analyzer = {
+        cmd = rust_analyzer_cmd(),
+      },
       lua_ls = {
         settings = {
           Lua = {
